@@ -9,7 +9,7 @@
 (予定 ※要NPM登録)
 
 ```shell
-npm i @toranoana/tora-viewer
+npm i @toralab/tora-viewer
 ```
 
 またはCDNが使えます。(予定)
@@ -23,7 +23,7 @@ npm i @toranoana/tora-viewer
 基本的な使い方は以下の通りです。第1引数に画像URLの配列を渡します。
 
 ```javascript
-import toraViewer from '@toranoana/tora-viewer';
+import toraViewer from '@toralab/tora-viewer';
 
 toraViewer([
   'https://example.com/1.png',
@@ -94,7 +94,7 @@ toraViewer([
 第1引数には画像URLの配列以外にオブジェクト配列やPromise配列が利用できます。(下で示す例のように混在も可能です。)
 
 ```javascript
-import toraViewer from '@toranoana/tora-viewer';
+import toraViewer from '@toralab/tora-viewer';
 
 toraViewer([
   'https://example.com/1.png',

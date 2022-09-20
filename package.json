@@ -1,5 +1,5 @@
 {
-  "name": "@toranoana/tora-viewer",
+  "name": "@toralab/tora-viewer",
   "version": "0.1.0",
   "files": [
     "dist"
