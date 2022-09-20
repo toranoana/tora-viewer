@@ -1,0 +1,31 @@
+$modal_bg_color: #000;
+$title_color: #fff;
+$default_color: #fff;
+$close_button_color: #fff;
+$close_button_bg_color: #303134;
+$ctrl_button_color: #fff;
+$arrow_button_color: #fff;
+$page_bg_color: #fff;
+$page_selector_range_bg_color: #fff;
+$page_selector_range_active_bg_color: #3aa3e3;
+$page_selector_range_thumb_color: #3aa3e3;
+$last_page_close_button_bg_color: #ea4c89;
+$view_settings_bg_color: #fff;
+$view_settings_title_bg_color: #303134;
+$view_settings_title_border_color: #dddddd;
+$view_settings_close_button_color: #fff;
+$view_settings_radio_group_border_color: #b6b6b6;
+$view_settings_radio_group_bg_color: #dddddd;
+$view_settings_radio_group_selected_bg_color: #ea4c89;
+$viewer_control_area_bg: linear-gradient(
+  180deg,
+  rgba(255, 255, 255, 0) 70%,
+  rgba(48, 49, 52, 0.42903098739495793) 85%,
+  #1f2021 100%
+);
+$viewer_header_ctrl_bg: #303134;
+$viewer_footer_ctrl_bg: #303134;
+$page_loading_item_color: rgba(
+  $color: #000,
+  $alpha: 0.4,
+);

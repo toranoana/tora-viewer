@@ -1,0 +1,121 @@
+@use './colors';
+@use './variables';
+
+.#{variables.$app_name}.#{variables.$app_name}-root {
+  .view-settings {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-content: center;
+    font-weight: normal;
+    font-size: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+
+    &.show-settings {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .view-settings-title {
+      width: 100%;
+      height: 48px;
+      padding: 14px;
+      font-weight: normal;
+      font-size: 20px;
+      color: colors.$default_color;
+      background-color: colors.$view_settings_title_bg_color;
+      border-bottom: 1px solid colors.$view_settings_title_border_color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-settings-main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      min-width: 320px;
+      max-width: 560px;
+      height: 315px;
+      background-color: colors.$view_settings_bg_color;
+      overflow: auto;
+
+      .view-settings-close-button {
+        color: colors.$view_settings_close_button_color;
+        font-weight: normal;
+        font-size: 30px;
+        line-height: 48px;
+        background-color: transparent;
+        border-width: 0;
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        top: 2px;
+        right: 2px;
+      }
+    }
+
+    .view-settings-content {
+      margin: 0 auto;
+      padding: 32px 12px 0 12px;
+
+      @media only screen and (min-width: 480px) {
+        padding: 32px 24px 0 24px;
+      }
+    }
+
+    .view-settings-content-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .view-settings-radio-groups {
+      display: flex;
+      justify-content: space-around;
+      align-content: center;
+      align-items: stretch;
+      border: unset;
+      border-radius: 4px;
+      background-color: colors.$view_settings_radio_group_bg_color;
+      min-height: 40px;
+      overflow: hidden;
+
+      .view-settings-label {
+        display: inline-block;
+        flex: 1;
+        border-left: 1px solid colors.$view_settings_radio_group_border_color;
+        cursor: pointer;
+
+        &:first-child {
+          border-left-width: 0px;
+        }
+
+        .view-settings-radio {
+          display: none;
+
+          &:checked + .view-settings-label-text {
+            color: colors.$default_color;
+            background-color: colors.$view_settings_radio_group_selected_bg_color;
+          }
+        }
+
+        .view-settings-label-text {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}

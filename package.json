@@ -1,0 +1,41 @@
+{
+  "name": "@toranoana/tora-viewer",
+  "version": "0.1.0",
+  "files": [
+    "dist"
+  ],
+  "browser": "./dist/lib/tora-viewer.umd.js",
+  "main": "./dist/lib/tora-viewer.umd.js",
+  "module": "./dist/lib/tora-viewer.es.js",
+  "exports": {
+    "import": "./dist/lib/tora-viewer.es.js",
+    "require": "./dist/lib/tora-viewer.umd.js"
+  },
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "fmt": "prettier --write *.ts src/**/*.{ts,d.ts,tsx}",
+    "lint": "npm run lint:ts && npm run lint:es && npm run lint:fmt",
+    "lint:ts": "tsc --noEmit --emitDeclarationOnly false",
+    "lint:es": "eslint --ext .js,.ts,.tsx .",
+    "lint:fmt": "prettier --check *.ts src/**/*.{ts,d.ts,tsx}",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "autoprefixer": "^10.4.11",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.54.9",
+    "terser": "^5.15.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.2",
+    "vite-plugin-css-injected-by-js": "^2.1.0"
+  }
+}
