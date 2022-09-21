@@ -112,12 +112,45 @@ toraViewer([
 
 Objectで指定できる`thumbnailUrl`はサムネイル画像はスライダーでページ遷移時に表示されます。`thumbnailUrl`を指定しなかった場合、`url`で指定した画像がサムネイル画像として利用されます。(文字列で指定した場合も同様です)
 
+画像のURL一覧を少しづつ読み込みたい場合は`toraViewer.asyncLoadBuilder`を使うことができます。
+
+```javascript
+const asyncImages = toraViewer.asyncLoadBuilder(function (limit, offset) {
+  // 必要なタイミングで関数が実行されlimit,offsetが渡されるので画像URL一覧取得処理を実行する
+  const url = `https://example.com/api/page.json?limit=${limit}&offset=${offset}`;
+  return fetch(url).then(function (res) {
+    return res.json();
+  })
+})
+// 1回の処理で読み込むページ数を指定する。省略可(デフォルト値:20)
+.limit(20)
+// 全ページ数を指定する
+.build(100);
+toraViewer(asyncImages);
+```
+
+async/awaitが使える場合は下記のように直すことができます。
+
+```javascript
+const asyncImages = toraViewer.asyncLoadBuilder(async function (limit, offset) {
+  // 必要なタイミングで関数が実行されlimit,offsetが渡されるので画像URL一覧取得処理を実行する
+  const url = `https://example.com/api/page.json?limit=${limit}&offset=${offset}`;
+  const res = await fetch(url)
+  return await res.json();
+})
+// 1回の処理で読み込むページ数を指定する。省略可(デフォルト値:20)
+.limit(20)
+// 全ページ数を指定する
+.build(100);
+toraViewer(asyncImages);
+```
+
 ### メソッド
 
 生成時にインスタンスを変数で受け取って、ビューアーを操作できます。
 
 ```javascript
-var viewer = toraViewer([
+const viewer = toraViewer([
   'https://example.com/1.png',
   'https://example.com/2.png',
   'https://example.com/3.png',
