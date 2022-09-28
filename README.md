@@ -184,3 +184,15 @@ viewer.onCurrentIndexChanged(function (index) {
   console.log(index); // -> 2
 });
 ```
+
+## 利用技術
+
+- TypeScript, JSX
+- Vite
+- Font Awesome
+
+## 将来的に導入するもの(現時点でできていないもの)
+
+- 各種文言のカスタマイズ
+- 使える設定のカスタマイズ
+- テーマの変更
