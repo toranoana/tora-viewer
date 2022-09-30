@@ -6,6 +6,11 @@
 
 ## インストール
 
+```shell
+npm i https://github.com/toranoana/tora-viewer
+```
+
+<!--
 (予定 ※要NPM登録)
 
 ```shell
@@ -17,6 +22,7 @@ npm i @toralab/tora-viewer
 ```html
 <script src="https://example.com/tora-viewer.umd.js"></script>
 ```
+-->
 
 ## 利用方法
 
@@ -33,6 +39,7 @@ toraViewer([
 ]);
 ```
 
+<!--
 CDN利用の場合
 
 ```html
@@ -46,6 +53,7 @@ toraViewer([
 ]);
 </script>
 ```
+-->
 
 ### オプション(第２引数)
 
