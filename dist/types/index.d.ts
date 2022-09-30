@@ -1,4 +1,5 @@
 import './styles/index.scss';
+import { PageContent } from './interfaces/page-content';
 import { Viewer, BaseProps } from './viewer';
 interface Options extends Partial<BaseProps> {
     insertTarget?: HTMLElement | 'string';

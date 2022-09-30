@@ -1,5 +1,6 @@
 export { type BaseProps } from './components/main';
 import { type BaseProps } from './components/main';
+import { PageContent } from './interfaces/page-content';
 interface Props extends BaseProps {
     parent: Element;
 }

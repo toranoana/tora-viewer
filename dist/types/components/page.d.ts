@@ -1,4 +1,5 @@
 import { PageBase } from './page-base';
+import { PageContent } from '../interfaces/page-content';
 export interface PageSize {
     width: number;
     height: number;

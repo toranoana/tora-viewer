@@ -1,3 +1,4 @@
+import { PageContent } from '../interfaces/page-content';
 export declare function asyncLoadBuilder(load: (limit: number, offset: number) => Promise<PageContent[]>): AsyncLoadBuilder;
 declare class AsyncLoadBuilder {
     private load;

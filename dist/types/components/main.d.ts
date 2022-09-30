@@ -1,6 +1,7 @@
 import { ComponentBase } from './base';
 import { Page, type PageSize } from './page';
 import { PageStyle, ViewerDirection } from '../constants';
+import { PageContent } from '../interfaces/page-content';
 export interface BaseProps {
     pageSize: PageSize;
     pageStyle: PageStyle;
