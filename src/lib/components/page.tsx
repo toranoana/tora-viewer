@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { jsxFactory } from './base';
 import { PageBase } from './page-base';
+import { PageContent } from '../interfaces/page-content';
 
 export interface PageSize {
   width: number;

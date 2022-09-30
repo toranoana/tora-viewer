@@ -1,4 +1,4 @@
-type PageContent =
+export type PageContent =
   | string
   | {
       url: string;

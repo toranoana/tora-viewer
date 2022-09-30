@@ -1,5 +1,6 @@
 import './styles/index.scss';
 import { defaultPageHeight, defaultPageWidth } from './constants';
+import { PageContent } from './interfaces/page-content';
 import { Viewer, BaseProps } from './viewer';
 
 import { asyncLoadBuilder } from './utils/async-load-builder';

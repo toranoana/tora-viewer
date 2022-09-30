@@ -8,6 +8,7 @@ import { Page, type PageSize } from './page';
 import { EmptyPage } from './empty-page';
 import { EmbedPage } from './embed-page';
 import { appName, PageStyle, ViewerDirection } from '../constants';
+import { PageContent } from '../interfaces/page-content';
 import { createFaIcon } from '../utils/create-fa-icon';
 import { ControlArea } from './control-area';
 import { ViewSettings } from './view-settings';

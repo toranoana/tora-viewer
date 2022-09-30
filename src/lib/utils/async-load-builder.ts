@@ -1,4 +1,5 @@
 import { defaultLoadImageLimit } from '../constants';
+import { PageContent } from '../interfaces/page-content';
 
 export function asyncLoadBuilder(
   load: (limit: number, offset: number) => Promise<PageContent[]>
