@@ -20,6 +20,7 @@
     "lint:es": "eslint --ext .js,.ts,.tsx .",
     "lint:fmt": "prettier --check *.ts src/**/*.{ts,d.ts,tsx}",
     "build": "tsc && vite build",
+    "prepublishOnly": "npm run build",
     "preview": "vite preview"
   },
   "dependencies": {
