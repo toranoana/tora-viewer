@@ -7,15 +7,10 @@
 ## インストール
 
 ```shell
-npm i https://github.com/toranoana/tora-viewer
+npm i @toralab/tora-viewer
 ```
 
 <!--
-(予定 ※要NPM登録)
-
-```shell
-npm i @toralab/tora-viewer
-```
 
 またはCDNが使えます。(予定)
 
