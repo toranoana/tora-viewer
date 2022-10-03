@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tora Viewerデモ</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@toralab/tora-viewer"></script>
+  <script>
+    function open() {
+      toraViewer([
+        './assets/1.png',
+        './assets/2.png',
+        './assets/3.png',
+        './assets/4.png',
+        './assets/5.png',
+      ]);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      open();
+
+      const openBtn = document.getElementById('open');
+      openBtn.addEventListener('click', open)
+    });
+  </script>
+</head>
+
+<body>
+  <button id="open">open</button>
+</body>
+
+</html>
