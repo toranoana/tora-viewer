@@ -1,8 +1,13 @@
 # Tora Viewer
 
+[![npm version](https://badge.fury.io/js/@toralab%2Ftora-viewer.svg)](https://badge.fury.io/js/@toralab%2Ftora-viewer)
+[![CI](https://github.com/toranoana/tora-viewer/actions/workflows/ci.yml/badge.svg)](https://github.com/toranoana/tora-viewer/actions/workflows/ci.yml)
+
 漫画や写真集などの画像一覧を閲覧できるビューアーを作成できます。
 
 依存ライブラリが必要ないためどんな構成にも組み込みやすいです。
+
+[デモ](https://toranoana.github.io/tora-viewer/)
 
 ## インストール
 
@@ -10,14 +15,11 @@
 npm i @toralab/tora-viewer
 ```
 
-<!--
-
-またはCDNが使えます。(予定)
+またはCDNが使えます。
 
 ```html
-<script src="https://example.com/tora-viewer.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@toralab/tora-viewer"></script>
 ```
--->
 
 ## 利用方法
 
@@ -34,11 +36,10 @@ toraViewer([
 ]);
 ```
 
-<!--
 CDN利用の場合
 
 ```html
-<script src="https://example.com/tora-viewer.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@toralab/tora-viewer"></script>
 <script>
 toraViewer([
   'https://example.com/1.png',
@@ -48,7 +49,6 @@ toraViewer([
 ]);
 </script>
 ```
--->
 
 ### オプション(第２引数)
 
