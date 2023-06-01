@@ -65,17 +65,16 @@ export class Main extends ComponentBase {
     let autoFadeout = true;
     this.#isSpreadStyle = props.pageStyle === 'spread';
 
-    // controlShowTime0以下なら常にコントロール表示
-    const visibleControlEver = this.#props.controlShowTime <= 0;
-
     const autoFadeoutCtrl = () => {
-      if (visibleControlEver) {
-        return;
-      }
-
       if (!autoFadeout) return;
       window.clearTimeout(hideMainVisibleId);
       this.#controlArea.show();
+
+      // controlShowTime0以下なら自動で非表示にしない
+      if (this.#props.controlShowTime <= 0) {
+        return;
+      }
+
       // クリックして一定時間経過したらコントロール領域を消す
       hideMainVisibleId = window.setTimeout(() => {
         this.#controlArea.hide();
@@ -84,9 +83,6 @@ export class Main extends ComponentBase {
 
     const disableAutoFadeout = () => {
       autoFadeout = false;
-      if (visibleControlEver) {
-        return;
-      }
 
       window.clearTimeout(hideMainVisibleId);
       this.#controlArea.show();
@@ -204,9 +200,6 @@ export class Main extends ComponentBase {
       el.addEventListener('click', (e) => {
         e.stopPropagation();
 
-        if (visibleControlEver) {
-          return;
-        }
         if (this.#controlArea.visible) {
           window.clearTimeout(hideMainVisibleId);
           this.#controlArea.hide();
