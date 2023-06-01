@@ -1,5 +1,5 @@
 import { defaultLoadImageLimit } from '../constants';
-import { PageContent } from '../interfaces/page-content';
+import { LoadablePageContent, PageContent } from '../interfaces/page-content';
 
 export function asyncLoadBuilder(
   load: (limit: number, offset: number) => Promise<PageContent[]>
@@ -19,24 +19,30 @@ class AsyncLoadBuilder {
     return this;
   }
 
-  build(pageCount: number): Promise<PageContent>[] {
+  build(pageCount: number): LoadablePageContent[] {
     const load = this.load;
     const limit = this.loadLimit;
 
     // loadを順次実行させるためのPromise
-    let seriesPromise = Promise.resolve<PageContent[]>([]);
-    const pageContents: Promise<PageContent>[][] = [];
+    const loadablePageContents: LoadablePageContent[][] = [];
     for (let offset = 0; offset < pageCount; offset += limit) {
       const l = pageCount - offset >= limit ? limit : pageCount - offset;
-      const current = (seriesPromise = seriesPromise.then(() =>
-        load(l, offset)
-      ));
-      pageContents.push(
+      let current: Promise<PageContent[]> | null = null;
+
+      loadablePageContents.push(
         Array(l)
           .fill(0)
-          .map((_, i) => current.then((contents) => contents[i]))
+          .map((_, i) => ({
+            load: async () => {
+              if (!current) {
+                current = load(l, offset);
+              }
+              const contents = await current;
+              return contents[i];
+            },
+          }))
       );
     }
-    return pageContents.flat();
+    return loadablePageContents.flat();
   }
 }

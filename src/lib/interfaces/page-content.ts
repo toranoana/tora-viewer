@@ -6,3 +6,7 @@ export type PageContent =
       width?: number;
       height?: number;
     };
+
+export interface LoadablePageContent {
+  load: () => Promise<PageContent>;
+}

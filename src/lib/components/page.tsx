@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { jsxFactory } from './base';
 import { PageBase } from './page-base';
-import { PageContent } from '../interfaces/page-content';
+import { LoadablePageContent, PageContent } from '../interfaces/page-content';
 
 export interface PageSize {
   width: number;
@@ -18,22 +18,25 @@ interface Props {
 export class Page extends PageBase {
   #size: PageSize;
   #pageRatio: number;
-  #pageContent: Promise<PageContent>;
+  #loadablePageContent: LoadablePageContent;
   #contentLoaded = false;
   #contentLoadedSuccess = false;
 
+  #thumbnailElement: HTMLImageElement;
   #canvasRef: JSX.RefElement<HTMLCanvasElement>;
 
-  constructor(pageContent: Promise<PageContent>, props: Props) {
+  constructor(loadablePageContent: LoadablePageContent, props: Props) {
     super(props);
 
     // 初期表示に使うサイズ ※画像ロード時に画像に合わせたサイズになる
     this.#size = props.size;
     this.#pageRatio = props.size.width / props.size.height;
 
-    this.#pageContent = pageContent;
+    this.#loadablePageContent = loadablePageContent;
 
     this.#canvasRef = this.createRef();
+    this.#thumbnailElement = new Image();
+    this.#thumbnailElement.classList.add('viewer-page-thumbnail-content');
     this.showLoading();
   }
 
@@ -53,21 +56,7 @@ export class Page extends PageBase {
   }
 
   createThumbnailElementPage() {
-    const img = new Image();
-
-    this.#pageContent.then((content) => {
-      const thumbnailUrl =
-        typeof content === 'string'
-          ? content
-          : content.thumbnailUrl || content.url;
-      img.src = thumbnailUrl;
-      img.addEventListener('load', () => {
-        img.classList.add('viewer-page-thumbnail-content-loaded');
-      });
-    });
-
-    img.classList.add('viewer-page-thumbnail-content');
-    return img;
+    return this.#thumbnailElement;
   }
 
   get loaded() {
@@ -86,10 +75,21 @@ export class Page extends PageBase {
 
     this.#contentLoaded = true;
 
-    const content = await this.#pageContent;
+    const content = await this.#loadablePageContent.load();
+
+    const thumbnailUrl =
+      typeof content === 'string'
+        ? content
+        : content.thumbnailUrl || content.url;
+    const url = typeof content === 'string' ? content : content.url;
+
+    this.#thumbnailElement.src = thumbnailUrl;
+    this.#thumbnailElement.addEventListener('load', () => {
+      img.classList.add('viewer-page-thumbnail-content-loaded');
+    });
 
     const img = new Image();
-    img.src = typeof content === 'string' ? content : content.url;
+    img.src = url;
 
     // エラー時に再読込できる状態に戻す
     const recoverContentLoaded = () => {
