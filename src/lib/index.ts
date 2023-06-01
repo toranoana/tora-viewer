@@ -1,6 +1,6 @@
 import './styles/index.scss';
 import { defaultPageHeight, defaultPageWidth } from './constants';
-import { PageContent } from './interfaces/page-content';
+import { LoadablePageContent, PageContent } from './interfaces/page-content';
 import { Viewer, BaseProps } from './viewer';
 
 import { asyncLoadBuilder } from './utils/async-load-builder';
@@ -10,7 +10,7 @@ interface Options extends Partial<BaseProps> {
 }
 
 function main(
-  pageContents: (PageContent | Promise<PageContent>)[],
+  pageContents: (PageContent | Promise<PageContent> | LoadablePageContent)[],
   options?: Options
 ) {
   const opt = normalizeOptions(options);
@@ -29,7 +29,14 @@ function main(
   }
 
   return new Viewer(
-    pageContents.map((c) => Promise.resolve(c)),
+    pageContents.map((c) => {
+      if (typeof c !== 'string' && 'load' in c) {
+        return c;
+      }
+      return {
+        load: () => Promise.resolve(c),
+      };
+    }),
     {
       parent,
       ...opt,

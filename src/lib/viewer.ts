@@ -1,6 +1,6 @@
 export { type BaseProps } from './components/main';
 import { Main, type BaseProps } from './components/main';
-import { PageContent } from './interfaces/page-content';
+import { LoadablePageContent } from './interfaces/page-content';
 
 interface Props extends BaseProps {
   parent: Element;
@@ -13,7 +13,7 @@ export class Viewer {
   #disposed = false;
 
   constructor(
-    pageContents: Promise<PageContent>[],
+    pageContents: LoadablePageContent[],
     { parent, ...props }: Props
   ) {
     this.#main = new Main(pageContents, {
@@ -27,20 +27,36 @@ export class Viewer {
 
     // ページ遷移によるローディング
     const loadRange = 4;
+    let promiseInstant = Promise.resolve();
     this.#main.onCurrentIndexChanged((index) => {
+      if (this.#disposed) {
+        return;
+      }
       // 先のページ取得
       const nextTargets = this.#main.pages.filter(
         (p) => !p.loaded && p.index >= index && p.index < index + loadRange
       );
       for (const target of nextTargets) {
-        target.contentLoad();
+        promiseInstant = promiseInstant.then(async () => {
+          if (this.#disposed) {
+            return;
+          }
+          try {
+            await target.contentLoad();
+          } catch (e) {
+            console.error(e);
+          }
+        });
       }
     });
 
-    let promise = Promise.resolve();
+    let promiseSeries = Promise.resolve();
     // ページの順次ローディング
     for (const page of this.#main.pages) {
-      promise = promise.then(async () => {
+      promiseSeries = promiseSeries.then(async () => {
+        if (this.#disposed) {
+          return;
+        }
         try {
           await page.contentLoad();
         } catch (e) {
