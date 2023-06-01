@@ -120,7 +120,25 @@ Objectで指定できる`thumbnailUrl`はサムネイル画像はスライダー
 ```javascript
 const asyncImages = toraViewer.asyncLoadBuilder(function (limit, offset) {
   // 必要なタイミングで関数が実行されlimit,offsetが渡されるので画像URL一覧取得処理を実行する
+
   const url = `https://example.com/api/page.json?limit=${limit}&offset=${offset}`;
+  // APIのレスポンスBody例1.
+  // [
+  //   "https://example.com/1.png",
+  //   "https://example.com/2.png",
+  //   "https://example.com/3.png",
+  //   ...
+  //   "https://example.com/20.png"
+  // ]
+  //
+  // APIのレスポンスBody例2.
+  // [
+  //   { "url": "https://example.com/1.png", "thumbnailUrl": "https://example.com/1-thumb.png" },
+  //   { "url": "https://example.com/2.png", "thumbnailUrl": "https://example.com/2-thumb.png" },
+  //   { "url": "https://example.com/3.png", "thumbnailUrl": "https://example.com/3-thumb.png" },
+  //   ...
+  //   { "url": "https://example.com/20.png", "thumbnailUrl": "https://example.com/20-thumb.png" }
+  // ]
   return fetch(url).then(function (res) {
     return res.json();
   })
