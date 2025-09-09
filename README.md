@@ -88,7 +88,11 @@ toraViewer([
   lastPageElement: document.getElementById('#last'),
   // 挿入する要素
   // 指定すると全画面表示ではなくなり、指定された要素に表示される。
-  insertTarget: document.getElementById('#embed')
+  insertTarget: document.getElementById('#embed'),
+  // 画像をそのまま表示する(画像の画質が悪くなる場合にお試しください。)
+  // v0.2.1 以降で利用可能
+  // デフォルト値: false
+  useRawImage: false,
 });
 ```
 

@@ -8,12 +8,19 @@ export interface PageSize {
   height: number;
 }
 
+type PageType = 'image' | 'canvas';
+
 interface Props {
   index: number;
   size: PageSize;
+  pageType?: PageType;
   onTapLeft: () => void;
   onTapRight: () => void;
 }
+
+type PageInfo =
+  | { type: 'image'; elm: HTMLImageElement }
+  | { type: 'canvas'; elm: HTMLCanvasElement; ctx: CanvasRenderingContext2D };
 
 export class Page extends PageBase {
   #size: PageSize;
@@ -23,7 +30,9 @@ export class Page extends PageBase {
   #contentLoadedSuccess = false;
 
   #thumbnailElement: HTMLImageElement;
-  #canvasRef: JSX.RefElement<HTMLCanvasElement>;
+  #pageElement:
+    | { type: 'image'; ref: JSX.RefElement<HTMLImageElement> }
+    | { type: 'canvas'; ref: JSX.RefElement<HTMLCanvasElement> };
 
   constructor(loadablePageContent: LoadablePageContent, props: Props) {
     super(props);
@@ -34,7 +43,18 @@ export class Page extends PageBase {
 
     this.#loadablePageContent = loadablePageContent;
 
-    this.#canvasRef = this.createRef();
+    if (props.pageType === 'image') {
+      this.#pageElement = {
+        type: 'image',
+        ref: this.createRef<HTMLImageElement>(),
+      };
+    } else {
+      this.#pageElement = {
+        type: 'canvas',
+        ref: this.createRef<HTMLCanvasElement>(),
+      };
+    }
+
     this.#thumbnailElement = new Image();
     this.#thumbnailElement.classList.add('viewer-page-thumbnail-content');
     this.showLoading();
@@ -45,12 +65,23 @@ export class Page extends PageBase {
   }
 
   protected createElementPage() {
+    if (this.#pageElement.type === 'image') {
+      return (
+        <img
+          width={this.#size.width}
+          height={this.#size.height}
+          src=""
+          classNames={['viewer-page-content']}
+          ref={this.#pageElement.ref}
+        />
+      );
+    }
     return (
       <canvas
         width={this.#size.width}
         height={this.#size.height}
         classNames={['viewer-page-content']}
-        ref={this.#canvasRef}
+        ref={this.#pageElement.ref}
       />
     );
   }
@@ -63,15 +94,34 @@ export class Page extends PageBase {
     return this.#contentLoaded;
   }
 
+  async #getPageInfo(): Promise<PageInfo> {
+    if (this.#pageElement.type === 'image') {
+      if (!this.#pageElement.ref.current) {
+        return Promise.reject('Image element is not ready.');
+      }
+      return {
+        type: 'image',
+        elm: this.#pageElement.ref.current,
+      };
+    }
+    const canvas = this.#pageElement.ref.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) {
+      return Promise.reject('The rendering context is not ready.');
+    }
+    return {
+      type: 'canvas',
+      elm: canvas,
+      ctx,
+    };
+  }
+
   async contentLoad(): Promise<void> {
     if (this.#contentLoaded) {
       return Promise.resolve();
     }
 
-    const ctx = this.#canvasRef.current?.getContext('2d');
-    if (!ctx) {
-      return Promise.reject('The rendering context is not ready.');
-    }
+    const pageInfo: PageInfo = await this.#getPageInfo();
 
     this.#contentLoaded = true;
 
@@ -105,7 +155,7 @@ export class Page extends PageBase {
     return new Promise<void>((resolve, reject) => {
       img.addEventListener('load', () => {
         this.hideLoading();
-        this.#drawPageImage(ctx, img, content);
+        this.#drawPageImage(pageInfo, img, content);
         this.#contentLoadedSuccess = true;
         resolve();
       });
@@ -117,7 +167,7 @@ export class Page extends PageBase {
   }
 
   #drawPageImage(
-    ctx: CanvasRenderingContext2D,
+    pageInfo: PageInfo,
     img: HTMLImageElement,
     content: PageContent
   ) {
@@ -127,18 +177,21 @@ export class Page extends PageBase {
     const imgHeight =
       typeof content === 'string' ? img.height : content.height ?? img.height;
 
-    // canvasの大きさを画像に合わせる
-    if (this.#canvasRef.current) {
-      this.#canvasRef.current.setAttribute('width', `${imgWidth}`);
-      this.#canvasRef.current.setAttribute('height', `${imgHeight}`);
+    // 要素の大きさを画像に合わせる
+    pageInfo.elm.setAttribute('width', `${imgWidth}`);
+    pageInfo.elm.setAttribute('height', `${imgHeight}`);
 
-      const imgRatio = imgWidth / imgHeight;
-      if (imgRatio < this.#pageRatio) {
-        // 縦が長いときに切れないスタイルに切り替える
-        this.#canvasRef.current.classList.add('viewer-page-vertically-long');
-      }
+    const imgRatio = imgWidth / imgHeight;
+    if (imgRatio < this.#pageRatio) {
+      // 縦が長いときに切れないスタイルに切り替える
+      pageInfo.elm.classList.add('viewer-page-vertically-long');
     }
 
-    ctx.drawImage(img, 0, 0, imgWidth, imgHeight, 0, 0, imgWidth, imgHeight);
+    if (pageInfo.type === 'image') {
+      pageInfo.elm.src = img.src;
+    } else {
+      const ctx = pageInfo.ctx;
+      ctx.drawImage(img, 0, 0, imgWidth, imgHeight, 0, 0, imgWidth, imgHeight);
+    }
   }
 }
