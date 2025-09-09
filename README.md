@@ -181,7 +181,7 @@ const viewer = toraViewer([
 // 次のページ(「設定: 読む方向」が「右から左」なら左のページ、「左から右」なら右のページ)
 viewer.goNext();
 // 前のページ(「設定: 読む方向」が「左から右」なら右のページ、「右から左」なら左のページ)
-viewer.goPrev();
+viewer.goBack(); // or viewer.goPrev();
 // 左のページに移動
 viewer.goLeft();
 // 右のページに移動
@@ -189,6 +189,8 @@ viewer.goRight();
 
 // 指定のIndexに移動(0始まりなので例の場合は3ページ目に移動)
 viewer.goTo(2);
+
+// 以下は v0.2.1 以降で利用可能
 
 // 設定を開く
 viewer.openSettings();
