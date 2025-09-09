@@ -47,8 +47,10 @@ declare namespace JSX {
   }
 
   interface ImgIntrinsicElement
-    extends DefaultIntrinsicElement<HTMLInputElement> {
+    extends DefaultIntrinsicElement<HTMLImageElement> {
     src: string;
+    width?: number;
+    height?: number;
     alt?: string;
   }
 
