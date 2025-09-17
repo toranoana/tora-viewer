@@ -65,6 +65,7 @@ function normalizeOptions(options?: Options): BaseProps {
     modal,
     title: options?.title ?? '',
     controlShowTime: options?.controlShowTime ?? 3000,
+    useRawImage: options?.useRawImage ?? false,
     lastPageElement: options?.lastPageElement,
   };
 }

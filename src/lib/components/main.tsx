@@ -20,6 +20,7 @@ export interface BaseProps {
   modal: boolean;
   title: string;
   controlShowTime: number;
+  useRawImage: boolean;
   lastPageElement?: HTMLElement;
 }
 
@@ -128,6 +129,7 @@ export class Main extends ComponentBase implements PageControl {
         new Page(content, {
           index,
           size: this.#props.pageSize,
+          pageType: this.#props.useRawImage ? 'image' : 'canvas',
           onTapLeft: () => this.goLeft(),
           onTapRight: () => this.goRight(),
         })
