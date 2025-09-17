@@ -23,6 +23,19 @@ export interface BaseProps {
   lastPageElement?: HTMLElement;
 }
 
+export interface PageControl {
+  readonly currentIndex: number;
+  readonly isLastPage: boolean;
+  goNext: () => void;
+  goBack: () => void;
+  goLeft: () => void;
+  goRight: () => void;
+  goTo: (index: number) => void;
+  openSettings: () => void;
+  closeSettings: () => void;
+  onCurrentIndexChanged: (handler: CurrentIndexChangeHandler) => void;
+}
+
 interface Props extends BaseProps {
   onDispose: () => void;
 }
@@ -32,7 +45,7 @@ type CurrentIndexChangeHandler = (index: number) => void;
 const FIRST_PAGE_SHOWN = 'viewer-first-page-shown';
 const LAST_PAGE_SHOWN = 'viewer-last-page-shown';
 
-export class Main extends ComponentBase {
+export class Main extends ComponentBase implements PageControl {
   /** コンテンツのページ一覧 */
   readonly pages: Page[];
   /** 空ページ(奇数ページで見開き表示時に表示させる) */

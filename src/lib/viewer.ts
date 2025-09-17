@@ -1,12 +1,12 @@
 export { type BaseProps } from './components/main';
-import { Main, type BaseProps } from './components/main';
+import { Main, type PageControl, type BaseProps } from './components/main';
 import { LoadablePageContent } from './interfaces/page-content';
 
 interface Props extends BaseProps {
   parent: Element;
 }
 
-export class Viewer {
+export class Viewer implements PageControl {
   #main: Main;
   #parentElement: Element;
   #current: Element;
@@ -84,6 +84,13 @@ export class Viewer {
     return this.#disposed;
   }
 
+  /**
+   * @see {@link Viewer#goBack}
+   */
+  goPrev() {
+    this.#main.goBack();
+  }
+
   goBack() {
     this.#main.goBack();
   }
@@ -102,6 +109,26 @@ export class Viewer {
 
   goTo(index: number) {
     this.#main.goTo(index);
+  }
+
+  get currentIndex() {
+    return this.#main.currentIndex;
+  }
+
+  get isLastPage() {
+    return this.#main.isLastPage;
+  }
+
+  openSettings() {
+    this.#main.openSettings();
+  }
+
+  closeSettings() {
+    this.#main.closeSettings();
+  }
+
+  onCurrentIndexChanged(handler: (index: number) => void) {
+    this.#main.onCurrentIndexChanged(handler);
   }
 
   dispose() {
