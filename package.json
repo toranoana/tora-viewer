@@ -1,7 +1,7 @@
 {
   "name": "@toralab/tora-viewer",
   "description": "漫画や写真集などの画像一覧を閲覧できるビューアーを作成できます",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "homepage": "https://github.com/toranoana/tora-viewer",
   "repository": {
